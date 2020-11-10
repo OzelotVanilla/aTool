@@ -1,11 +1,13 @@
 import os
 import urllib.request as ul
+import hashlib as hl
 
 # Init functions
 
 
 def update():
-    doUpdate(checkUpdate("./program.py"))
+    if checkUpdate("./program.py") == 1:
+        doUpdate()
 
 
 def transVerListToInt(given_ver_list):
@@ -15,6 +17,8 @@ def transVerListToInt(given_ver_list):
 
 
 def checkProgramVersion(program_py):
+    if os.path.exists(program_py) == False:
+        return [0, 0, 0, 0]
     file = open(program_py)
     readingfile = file.readline()
     while readingfile:
@@ -37,6 +41,10 @@ def checkUpdate(program_py):
     print(upd)
     # Read the version of current program.py
     version = checkProgramVersion(program_py)
+    # Check exist
+    if version == [0, 0, 0, 0]:
+        print("File not exist. Downloading new version.")
+        return 1
     # Check whether the current version is out of date
     flag_needUpd = 0
     for x in range(len(upd)):
@@ -50,15 +58,18 @@ def checkUpdate(program_py):
         return 1
 
 
-def doUpdate(flag_doUpd):
+def doUpdate():
     # Go to update
-    if flag_doUpd == 1:
-        print("Will go to update.")
-    else:
-        print("No update is running!")
+    print("Will download new file.")
+    url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/program.py"
+    src = ul.urlopen(url).readlines()
+    ver = src[1].decode("utf-8")
+    newVerFileName = str(hl.sha256(ver).hexdigest)
+    newVersion = open(newVerFileName, "a")
+    newVersion.write(src)
+    newVersion.close()
 
 
 # Update
-version = [0, 0, 0, 1, "base"]
 update()
 os.system("python.exe ./program.py")
