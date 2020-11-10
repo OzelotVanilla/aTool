@@ -1,8 +1,7 @@
-import sys
-import random as r
-
 # Version: 0.0.0.1
 
+import sys
+import random as r
 
 # Init Sys
 args = sys.argv

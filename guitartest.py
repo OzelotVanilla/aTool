@@ -64,6 +64,7 @@ def doUpdate():
     url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/program.py"
     src = ul.urlopen(url).readlines()
     ver = src[1].decode("utf-8")
+    print(ver)
     newVerFileName = str(hl.sha256(ver).hexdigest)
     newVersion = open(newVerFileName, "a")
     newVersion.write(src)
