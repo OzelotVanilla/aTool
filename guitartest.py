@@ -1,33 +1,46 @@
 import random as r
 import sys
 
-d = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+# Init Sys
+args = sys.argv
+flag_insideSet = 0
+version = [0, 0, 0, 1, "base"]
+
+# Update
+
+
+# Init Vars
+scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+string = 0
+fret = 0
+opens = scale[0]
+move = 0
+
+
 while True:
-    s = r.randint(1, 6)
-    t = r.randint(0, 5)
-    e = d[0]
-    m = 0
-    if s == 1:
-        e = 4
-    if s == 2:
-        e = 11
-    if s == 3:
-        e = 7
-    if s == 4:
-        e = 2
-    if s == 5:
-        e = 9
-    if s == 6:
-        e = 4
-    m += t+e
-    if m >= 12:
-        m -= 12
-    if len(d[m]) != 1:
+    string = r.randint(1, 6)
+    fret = r.randint(0, 5)
+    if string == 1:
+        opens = 4
+    if string == 2:
+        opens = 11
+    if string == 3:
+        opens = 7
+    if string == 4:
+        opens = 2
+    if string == 5:
+        opens = 9
+    if string == 6:
+        opens = 4
+    move += fret + opens
+    if move >= 12:
+        move -= 12
+    if len(scale[move]) != 1:
         print("Pass, because you ask me not to test the thing with \"#\"")
         continue
-    print("String " + str(s) + " at " + str(t))
+    print("String " + str(string) + " at " + str(fret))
     i = input("Input your answer: ")
-    if i == d[m]:
+    if i == scale[move]:
         print("OK!")
         continue
     elif i == "exit":
@@ -37,5 +50,5 @@ while True:
         print()
         break
     else:
-        print("The answer is: "+d[m])
+        print("The answer is: "+scale[move])
         continue
