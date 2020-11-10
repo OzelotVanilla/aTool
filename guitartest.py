@@ -1,6 +1,5 @@
 import os
 import urllib.request as ul
-import hashlib as hl
 
 # Init functions
 
@@ -61,14 +60,16 @@ def checkUpdate(program_py):
 def doUpdate():
     # Go to update
     print("Will download new file.")
+    url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/upd"
+    ver = ul.urlopen(url).readlines()[1].decode("utf-8").rstrip()
     url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/program.py"
-    src = ul.urlopen(url).readlines()
-    ver = src[1].decode("utf-8")
     print(ver)
-    newVerFileName = str(hl.sha256(ver).hexdigest)
+    newVerFileName = ".temp."+str(ver)+".py"
     newVersion = open(newVerFileName, "a")
-    newVersion.write(src)
-    newVersion.close()
+    ul.urlretrieve(url, newVerFileName)
+    if os.path.exists("program.py") == True:
+        os.remove("program.py")
+    os.rename(newVerFileName, "program.py")
 
 
 # Update
