@@ -1,12 +1,13 @@
+import sys
+import random as r
+
+# Version: 0.0.0.1
+
 
 # Init Sys
 args = sys.argv
 flag_insideSet = 0
-
-# Update
 version = [0, 0, 0, 1, "base"]
-update()
-
 
 # Init Vars
 scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]

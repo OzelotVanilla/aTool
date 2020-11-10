@@ -1,25 +1,49 @@
-import sys
-import random as r
+import os
 import urllib.request as ul
 
 # Init functions
 
 
 def update():
-    doUpdate(checkUpdate())
+    doUpdate(checkUpdate("./program.py"))
 
 
-def checkUpdate():
+def transVerListToInt(given_ver_list):
+    for x in range(4):
+        given_ver_list[x] = int(given_ver_list[x].rstrip())
+    return given_ver_list
+
+
+def checkProgramVersion(program_py):
+    file = open(program_py)
+    readingfile = file.readline()
+    while readingfile:
+        if readingfile[0:11] == "# Version: ":
+            version = transVerListToInt(readingfile[11:].split("."))
+            print("Find version " + str(version))
+            break
+        readingfile = file.readline()
+    return version
+
+
+def checkUpdate(program_py):
     # Check
     print("Checking update, please wait.")
     url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/upd"
-    upd = ul.urlopen(url).readlines()[1].decode("utf-8").split(".")
+    upd = ul.urlopen(url).readlines()[1].decode("utf-8")
+    upd = upd.rstrip().split(".")
+    for i in range(4):
+        upd[i] = int(upd[i])
     print(upd)
+    # Read the version of current program.py
+    version = checkProgramVersion(program_py)
+    # Check whether the current version is out of date
     flag_needUpd = 0
-    for x in upd:
-        while upd[x] != "rls" and upd[x] != "alpha" and upd[x] != "beta" and upd[x] != "base":
+    for x in range(len(upd)):
+        if upd[x] != "rls" and upd[x] != "alpha" and upd[x] != "beta" and upd[x] != "base":
             if upd[x] > version[x]:
                 flag_needUpd = 1
+    print(upd)
     if flag_needUpd == 1:
         flag_doUpd = input("Need update. Input \"y\" to update.")
     if flag_doUpd == "y":
@@ -31,57 +55,10 @@ def doUpdate(flag_doUpd):
     if flag_doUpd == 1:
         print("Will go to update.")
     else:
-        print("Do not need update.")
+        print("No update is running!")
 
-
-# Init Sys
-args = sys.argv
-flag_insideSet = 0
 
 # Update
 version = [0, 0, 0, 1, "base"]
 update()
-
-
-# Init Vars
-scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-string = 0
-fret = 0
-opens = scale[0]
-move = 0
-
-while True:
-    string = r.randint(1, 6)
-    fret = r.randint(0, 5)
-    if string == 1:
-        opens = 4
-    if string == 2:
-        opens = 11
-    if string == 3:
-        opens = 7
-    if string == 4:
-        opens = 2
-    if string == 5:
-        opens = 9
-    if string == 6:
-        opens = 4
-    move += fret + opens
-    if move >= 12:
-        move -= 12
-    if len(scale[move]) != 1:
-        print("Pass, because you ask me not to test the thing with \"#\"")
-        continue
-    print("String " + str(string) + " at " + str(fret))
-    answer = input("Input your answer: ")
-    if answer == scale[move]:
-        print("OK!")
-        continue
-    elif answer == "exit":
-        print("Not available exit function. Type \"exit()\" instead.")
-        continue
-    elif answer == "exit()":
-        print()
-        break
-    else:
-        print("The answer is: "+scale[move])
-        continue
+os.system("python.exe ./program.py")
