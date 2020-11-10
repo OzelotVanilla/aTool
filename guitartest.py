@@ -1,12 +1,43 @@
-import random as r
 import sys
+import random as r
+import urllib.request as ul
 
 # Init Sys
 args = sys.argv
 flag_insideSet = 0
-version = [0, 0, 0, 1, "base"]
+version = [0, 1, 0, 0, "rls"]
+update()
 
 # Update
+
+
+def update():
+    doUpdate(checkUpdate())
+
+
+def checkUpdate():
+    # Check
+    print("Checking update, please wait.")
+    url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/upd"
+    upd = ul.urlopen(url).readlines()[1].decode("utf-8").split(".")
+    print(upd)
+    flag_needUpd = 0
+    for x in upd:
+        while upd[x] != "rls" and upd[x] != "alpha" and upd[x] != "beta":
+            if upd[x] > version[x]:
+                flag_needUpd = 1
+    if flag_needUpd == 1:
+        flag_doUpd = input("Need update. Input \"y\" to update.")
+    if flag_doUpd == "y":
+        return 1
+
+
+def doUpdate(flag_doUpd):
+    # Go to update
+    if flag_doUpd == 1:
+        print("Will go to update.")
+    else:
+        print("Do not need update.")
 
 
 # Init Vars
@@ -15,7 +46,6 @@ string = 0
 fret = 0
 opens = scale[0]
 move = 0
-
 
 while True:
     string = r.randint(1, 6)
@@ -39,14 +69,14 @@ while True:
         print("Pass, because you ask me not to test the thing with \"#\"")
         continue
     print("String " + str(string) + " at " + str(fret))
-    i = input("Input your answer: ")
-    if i == scale[move]:
+    answer = input("Input your answer: ")
+    if answer == scale[move]:
         print("OK!")
         continue
-    elif i == "exit":
+    elif answer == "exit":
         print("Not available exit function. Type \"exit()\" instead.")
         continue
-    elif i == "exit()":
+    elif answer == "exit()":
         print()
         break
     else:
