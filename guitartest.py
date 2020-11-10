@@ -2,13 +2,7 @@ import sys
 import random as r
 import urllib.request as ul
 
-# Init Sys
-args = sys.argv
-flag_insideSet = 0
-version = [0, 1, 0, 0, "rls"]
-update()
-
-# Update
+# Init functions
 
 
 def update():
@@ -23,7 +17,7 @@ def checkUpdate():
     print(upd)
     flag_needUpd = 0
     for x in upd:
-        while upd[x] != "rls" and upd[x] != "alpha" and upd[x] != "beta":
+        while upd[x] != "rls" and upd[x] != "alpha" and upd[x] != "beta" and upd[x] != "base":
             if upd[x] > version[x]:
                 flag_needUpd = 1
     if flag_needUpd == 1:
@@ -38,6 +32,15 @@ def doUpdate(flag_doUpd):
         print("Will go to update.")
     else:
         print("Do not need update.")
+
+
+# Init Sys
+args = sys.argv
+flag_insideSet = 0
+
+# Update
+version = [0, 0, 0, 1, "base"]
+update()
 
 
 # Init Vars
