@@ -53,19 +53,18 @@ def checkUpdate(program_py):
     print(upd)
     if flag_needUpd == 1:
         flag_doUpd = input("Need update. Input \"y\" to update.")
-    if flag_doUpd == "y":
-        return 1
+        if flag_doUpd == "y":
+            return 1
 
 
 def doUpdate():
     # Go to update
-    print("Will download new file.")
+    print("Will download file.")
     url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/upd"
     ver = ul.urlopen(url).readlines()[1].decode("utf-8").rstrip()
     url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/program.py"
     print(ver)
-    newVerFileName = ".temp."+str(ver)+".py"
-    newVersion = open(newVerFileName, "a")
+    newVerFileName = ".temp." + str(ver) + ".py"
     ul.urlretrieve(url, newVerFileName)
     if os.path.exists("program.py") == True:
         os.remove("program.py")

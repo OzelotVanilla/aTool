@@ -1,11 +1,16 @@
+# Version: 0.0.0.1 base
+
+import sys
+import os
+import random as r
 
 # Init Sys
 args = sys.argv
 flag_insideSet = 0
 
-# Update
-version = [0, 0, 0, 1, "base"]
-update()
+
+def clr():
+    os.system("cls")
 
 
 # Init Vars
