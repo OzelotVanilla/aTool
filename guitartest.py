@@ -1,11 +1,13 @@
-# Version: 0.1.0.0 alpha
+# Version: 0.1.1.0 alpha
 
 import random as r
 import sys
 import os
 import urllib.request as ul
+import winsound as ws
 
 # Init Sys
+version = [0, 1, 1, 0, "alpha"]
 args = sys.argv
 flag_insideSet = 0
 
@@ -13,7 +15,7 @@ flag_insideSet = 0
 
 
 def update():
-    if checkUpdate("./program.py") == 1:
+    if checkUpdate(version) == 1:
         doUpdate()
 
 
@@ -23,40 +25,21 @@ def transVerListToInt(given_ver_list):
     return given_ver_list
 
 
-def checkProgramVersion(program_py):
-    if os.path.exists(program_py) == False:
-        return [0, 0, 0, 0]
-    file = open(program_py)
-    readingfile = file.readline()
-    while readingfile:
-        if readingfile[0:11] == "# Version: ":
-            version = transVerListToInt(readingfile[11:].split("."))
-            print("Find version " + str(version))
-            break
-        readingfile = file.readline()
-    return version
-
-
-def checkUpdate(program_py):
+def checkUpdate(ver):
     # Check
     print("Checking update, please wait.")
     url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/upd"
     upd = ul.urlopen(url).readlines()[1].decode("utf-8")
     upd = transVerListToInt(upd.rstrip().split("."))
-    # for i in range(4):
-    #     upd[i] = int(upd[i])
-    # print(upd)
-    # Read the version of current program.py
-    version = checkProgramVersion(program_py)
     # Check exist
-    if version == [0, 0, 0, 0]:
-        print("File not exist. Downloading new version.")
+    if ver == [0, 0, 0, 0]:
+        print("Bad file version. Downloading newest version.")
         return 1
     # Check whether the current version is out of date
     flag_needUpd = 0
     for x in range(len(upd)):
         if upd[x] != "rls" and upd[x] != "alpha" and upd[x] != "beta" and upd[x] != "base":
-            if upd[x] > version[x]:
+            if upd[x] > ver[x]:
                 flag_needUpd = 1
     print(upd)
     if flag_needUpd == 1:
@@ -72,13 +55,11 @@ def doUpdate():
     print("Will download file.")
     url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/upd"
     ver = ul.urlopen(url).readlines()[1].decode("utf-8").rstrip()
-    url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/program.py"
+    url = "https://raw.githubusercontent.com/OzelotVanilla/GuitarTool/main/guitartest.py"
     print(ver)
-    newVerFileName = ".temp." + str(ver) + ".py"
+    newVerFileName = "temp." + str(ver) + ".py"
     ul.urlretrieve(url, newVerFileName)
-    if os.path.exists("program.py") == True:
-        os.remove("program.py")
-    os.rename(newVerFileName, "program.py")
+    os.system("python \"" + newVerFileName + "\"")
 
 
 # Init Vars
@@ -141,4 +122,27 @@ def FretRememberTest():
             continue
 
 
-FretRememberTest()
+def Chord_AlphaTest():
+    ws.Beep(262, 300)
+    ws.Beep(330, 300)
+    ws.Beep(392, 300)
+    exit()
+
+
+print("Enter number to select.")
+print("1. Fret Remember Test")
+print("2. Chord (Alpha Test)")
+modeSelect = int(input("Enter number: "))
+while True:
+    if modeSelect == 1:
+        clr()
+        FretRememberTest()
+        break
+    elif modeSelect == 2:
+        clr()
+        Chord_AlphaTest()
+        break
+    elif modeSelect == 0:
+        exit()
+    else:
+        continue
