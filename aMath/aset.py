@@ -53,17 +53,7 @@ class aset(amath):
 
     def __init__(self, *element, prop=-1, isconst=False):
         self.data = []
-        if len(element) == 0:
-            self.prop = 0
-        elif len(element) == 1:
-            t1 = [type(tuple()), type(list()), type(set())]
-            if type(element[0]) in t1:
-                self.data = list(element[0])
-            else:
-                self.data = [element[0]]
-        else:
-            [self.data.append(x) for x in element]
-        self.data = sorted(SameElementDeleted(self.data))
+        self.append(element)
         if type(prop) == type(int()):
             self.prop = prop
         elif type(prop) == type(str()):
@@ -127,12 +117,23 @@ class aset(amath):
     def __xor__(self, setObj):
         return difrceda(self, setObj)
 
-    def append(self, *obj, addWhole=False):
+    def append(self, *element, addWholeAsAset=False):  # TODO
         """aMath.aSet Class append Function\n
-        bool addWhole: is false by default. If you want to add the 
+        bool addWhole: is false by default. If you want to add the
         """
-        [self.data.append(x) for x in obj]
-        return
+        if len(element) == 0:
+            self.prop = 0
+        elif len(element) == 1:
+            t1 = [type(tuple()), type(list()), type(set())]
+            if type(element[0]) in t1:
+                self.data = list(element[0])
+            else:
+                self.data = [element[0]]
+        else:
+            [self.data.append(x) for x in element]
+        if addWholeAsAset == True:
+            self.data.append(aset(element))
+        self.data = sorted(SameElementDeleted(self.data))
 
     def show(self, showType=1, showData=1):
         """PyMath Class aSet's function.
