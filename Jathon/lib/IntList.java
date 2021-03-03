@@ -1,16 +1,32 @@
 package lib.Jathon;
 import java.util.Arrays;
-import static lib.Jathon.built_in.*;
+import static lib.Jathon.builtin.*;
+
+/**
+ * What is new?<br>
+ * * name changed output() -> toArray()
+ */
 
 public class IntList
 {
-    public final String version = "0.2.0.0 Alpha";
+    public final String version = "0.2.1.0";
     int[] data;
 
     public IntList()
     {
 
     }
+    public IntList(String arg, String split)
+    {
+        this(inted(arg.split(split)));
+    }
+    /**
+     * This constructer allows you to convert a String array to an IntList array.<br>
+     * For example:
+     * 
+     * @param arg
+     * @param mode
+     */
     public IntList(String[] arg, int mode)
     {
         this();
@@ -56,8 +72,9 @@ public class IntList
     {
         Arrays.sort(this.data);
     }
-    public int[] output()
+    public int[] toArray()
     {
         return this.data;
     }
+
 }
