@@ -2,9 +2,16 @@ package lib.Jathon;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * What is new?<br>
+ * * OK version of randint().<br>
+ * * Very first version of abs(), min() and max(), reversed().<br>
+ * * Shorter name for Math.pow -> pow(), Python already has that.
+ */
+
 public final class built_in
 {
-    public final String version = "0.2.0.0 Alpha";
+    public final String version = "0.2.1.0";
 
     /**
      * This is the builtin file in Jathon. Do not try to initialize instance of this class.<br>
@@ -35,7 +42,8 @@ public final class built_in
      * 
      * 
      * @param argument
-     * @param end
+     * @param e
+     * 
      */
     public static void print(Object... args)
     {
@@ -56,15 +64,20 @@ public final class built_in
         print(args);
         print();
     }
-    public static void printf(String optionStr, Object objectStr)
+    public static void printf(String optionStr, Object... objectStr)
     {
         System.out.printf(optionStr, objectStr);
+    }
+    public static void printfl(String optionStr, Object... objectStr)
+    {
+        System.out.printf(optionStr, objectStr);
+        print();
     }
     public static void printa(Object[] x)
     {
         for (Object obj : x)
         {
-            print(obj);
+            print(obj + " ");
         }
     }
     public static void print(IntList x)
@@ -82,6 +95,16 @@ public final class built_in
     public static int inted(double x)
     {
         return (int) x;
+    }
+    public static int[] inted(String[] arg)
+    {
+        int[] ret = new int[arg.length];
+        int i = 0;
+        for (String x : arg)
+        {
+            ret[i] = inted(x);
+        }
+        return ret;
     }
     private static Scanner scanner_s = new Scanner(System.in);
     public static String input()
@@ -110,6 +133,92 @@ public final class built_in
     }
     public static int[] sorted(IntList x)
     {
-        return sorted(x.output());
+        return sorted(x.toArray());
+    }
+
+    // TODO: Reversed function
+
+    public static int reversed(int x)
+    {
+        return inted(reversed(Integer.toString(x)));
+    }
+    public static String reversed(String s)
+    {
+        StringBuilder b = new StringBuilder();
+        char[] c = s.toCharArray();
+        for (int i = c.length - 1; i >= 0; i--)
+        {
+            b.append(c[i]);
+        }
+        return b.toString();
+    }
+    // public static <E> E reversed(E[] i)
+    // {
+
+    // }
+
+    // Math function.
+
+    // TODO: Wrong randint()
+    /**
+     * Use system time to return a random number.<br>
+     *
+     * @return int from 0 to 100 (edge included)
+     */
+    public static int randint()
+    {
+        return randint(0, 100);
+    }
+    /**
+     * Use system time to return a random number.<br>
+     *
+     * @param s The start number of ramdom int
+     * @param e The e number of ramdom int
+     * @return int from 0 to 100 (edge included)
+     */
+    public static int randint(int s, int e)
+    {
+        return inted(System.nanoTime() % 1000000000) % (e - s) + s;
+    }
+    /**
+     * 
+     * @param x
+     * @return The absolute data of the input number
+     */
+    public static int abs(int x)
+    {
+        return x > 0 ? x : -x;
+    }
+    /**
+     * 
+     * @param args The data you want to pick.
+     * @return The max data from input
+     */
+    public static int max(int... args)
+    {
+        int r = args[0];
+        for (int x : args)
+        {
+            r = (x > r ? x : r);
+        }
+        return r;
+    }
+    /**
+     * 
+     * @param args The data you want to pick.
+     * @return The min data from input
+     */
+    public static int min(int... args)
+    {
+        int r = args[0];
+        for (int x : args)
+        {
+            r = (x < r ? x : r);
+        }
+        return r;
+    }
+    public static double pow(double a, double b)
+    {
+        return Math.pow(a, b);
     }
 }
