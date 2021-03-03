@@ -1,6 +1,6 @@
 package lib.Jathon;
 import java.util.Arrays;
-import static lib.Jathon.built_in.*;
+import static lib.Jathon.builtin.*;
 
 /**
  * What is new?<br>

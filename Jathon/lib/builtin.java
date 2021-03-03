@@ -9,7 +9,7 @@ import java.util.Scanner;
  * * Shorter name for Math.pow -> pow(), Python already has that.
  */
 
-public final class built_in
+public final class builtin
 {
     public final String version = "0.2.1.0";
 
@@ -17,7 +17,7 @@ public final class built_in
      * This is the builtin file in Jathon. Do not try to initialize instance of this class.<br>
      * You can use this freely.
      */
-    private built_in()
+    private builtin()
     {
     }
 
