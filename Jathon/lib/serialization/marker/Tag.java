@@ -1,22 +1,19 @@
-package dr.magicalstone.serialization.marker;
+package Jathon.lib.serialization.marker;
 
 import java.lang.annotation.*;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(Tag.Tags.class)
-public @interface Tag{
+public @interface Tag
+{
 
     String[] value();
 
-
-
-
-
-
     @Target({ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR})
     @Retention(RetentionPolicy.RUNTIME)
-    public static @interface Setter{
+    public static @interface Setter
+    {
 
         String[] tags();
 
@@ -26,7 +23,8 @@ public @interface Tag{
 
     @Target({ElementType.FIELD, ElementType.METHOD})
     @Retention(RetentionPolicy.RUNTIME)
-    public static @interface Getter{
+    public static @interface Getter
+    {
 
         String[] tags();
 
@@ -34,7 +32,8 @@ public @interface Tag{
 
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
-    public static @interface Tags{
+    public static @interface Tags
+    {
 
         Tag[] value();
 

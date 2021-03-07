@@ -1,17 +1,9 @@
-package lib.Jathon;
-import java.util.Arrays;
-import java.util.Scanner;
-
-/**
- * What is new?<br>
- * * OK version of randint().<br>
- * * Very first version of abs(), min() and max(), reversed().<br>
- * * Shorter name for Math.pow -> pow(), Python already has that.
- */
+package Jathon.lib;
+import java.util.*;
 
 public final class builtin
 {
-    public final String version = "0.2.1.0";
+    public final String version = "0.2.2.0";
 
     /**
      * This is the builtin file in Jathon. Do not try to initialize instance of this class.<br>
@@ -55,9 +47,21 @@ public final class builtin
         {
             for (Object x : args)
             {
-                System.out.print(x);
+                if (x.getClass().isArray())
+                {
+                    System.out.println();
+                }
+                else
+                {
+                    System.out.print(x);
+                }
             }
         }
+    }
+    public static void println(IntList arg)
+    {
+        print(arg);
+        print();
     }
     public static void println(Object... args)
     {
@@ -102,9 +106,14 @@ public final class builtin
         int i = 0;
         for (String x : arg)
         {
-            ret[i] = inted(x);
+            ret[i++] = inted(x);
         }
         return ret;
+    }
+    public static double doubled(String x)
+    {
+        return Double.parseDouble(x);
+
     }
     private static Scanner scanner_s = new Scanner(System.in);
     public static String input()
@@ -178,7 +187,7 @@ public final class builtin
      */
     public static int randint(int s, int e)
     {
-        return inted(System.nanoTime() % 1000000000) % (e - s) + s;
+        return inted(Math.sqrt(System.nanoTime() % 1000000000)) % (e - s) + s;
     }
     /**
      * 
@@ -194,12 +203,23 @@ public final class builtin
      * @param args The data you want to pick.
      * @return The max data from input
      */
-    public static int max(int... args)
+    @SafeVarargs
+    public static <cmpable extends Number> cmpable max(cmpable... args)
     {
-        int r = args[0];
-        for (int x : args)
+        cmpable r = args[0];
+        for (cmpable x : args)
         {
-            r = (x > r ? x : r);
+            r = (x.doubleValue() > r.doubleValue() ? x : r);
+        }
+        return r;
+    }
+    @SafeVarargs
+    public static <cmpable extends Number> cmpable max(cmpable[]... args)
+    {
+        cmpable r = args[0][0];
+        for (cmpable[] c : args)
+        {
+            r = max(c);
         }
         return r;
     }
@@ -208,12 +228,23 @@ public final class builtin
      * @param args The data you want to pick.
      * @return The min data from input
      */
-    public static int min(int... args)
+    @SafeVarargs
+    public static <cmpable extends Number> cmpable min(cmpable... args)
     {
-        int r = args[0];
-        for (int x : args)
+        cmpable r = args[0];
+        for (cmpable x : args)
         {
-            r = (x < r ? x : r);
+            r = (x.doubleValue() < r.doubleValue() ? x : r);
+        }
+        return r;
+    }
+    @SafeVarargs
+    public static <cmpable extends Number> cmpable min(cmpable[]... args)
+    {
+        cmpable r = args[0][0];
+        for (cmpable[] c : args)
+        {
+            r = min(c);
         }
         return r;
     }
