@@ -1,9 +1,8 @@
-package dr.magicalstone.serialization;
+package Jathon.lib.serialization;
 
-
-import dr.magicalstone.serialization.marker.Archive;
-import dr.magicalstone.serialization.marker.Serializable;
-import dr.magicalstone.serialization.marker.Tag;
+import Jathon.lib.serialization.marker.Archive;
+import Jathon.lib.serialization.marker.Serializable;
+import Jathon.lib.serialization.marker.Tag;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -15,15 +14,18 @@ import java.util.TreeMap;
 @Archive(departedTagName = "mc:block")
 @Archive(departedTagName = "ud:tile")
 @Serializable(typeName = "ud:block")
-public class Example {
+public class Example
+{
 
     private int dataInt;
     @Tag.Getter(tags = {"ud:blockID"})
-    public int getDataInt() {
+    public int getDataInt()
+    {
         return dataInt;
     }
     @Tag.Setter(tags = {"ud:blockID"})
-    public void setDataInt(int dataInt) {
+    public void setDataInt(int dataInt)
+    {
         this.dataInt = dataInt;
     }
 
@@ -36,17 +38,20 @@ public class Example {
     private Map<String, String> dataMap;
 
     @Tag.Getter(tags = {"ud:domain", "ud:name"})
-    private String[] getLocation(){
-        return new String[] {"block", "air"};
+    private String[] getLocation()
+    {
+        return new String[]{"block", "air"};
     }
 
     @Tag.Getter(tags = {"ud:mid"})
-    private String getMidName(){
+    private String getMidName()
+    {
         return "classic";
     }
 
     @Tag.Getter(tags = {"ud:domain", "ud:mid", "ud:name"})
-    private void setNames(String domain, String mid, String name){
+    private void setNames(String domain, String mid, String name)
+    {
 
     }
 }
