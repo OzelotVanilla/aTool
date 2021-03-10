@@ -1,9 +1,14 @@
 package Jathon.lib;
 import java.util.*;
 
+/**
+ * What is new?<br>
+ * * Change print() to printx(). If you do not need line break, use printx().
+ */
+
 public final class builtin
 {
-    public final String version = "0.2.2.0";
+    public final String $version = "0.2.3.0";
 
     /**
      * This is the builtin file in Jathon. Do not try to initialize instance of this class.<br>
@@ -13,17 +18,17 @@ public final class builtin
     {
     }
 
-    public static void print(int[] x)
+    public static void printx(int[] x)
     {
         for (int i = 0; i < x.length; i++)
         {
             if (i != x.length - 1)
             {
-                print(x[i] + ", ");
+                printx(x[i] + ", ");
             }
             else
             {
-                print(x[i]);
+                printx(x[i]);
             }
         }
     }
@@ -37,7 +42,7 @@ public final class builtin
      * @param e
      * 
      */
-    public static void print(Object... args)
+    public static void printx(Object... args)
     {
         if (args.length == 0)
         {
@@ -58,35 +63,49 @@ public final class builtin
             }
         }
     }
+    public static void print()
+    {
+        System.out.println();
+    }
+    public static void print(Object... args)
+    {
+        printx(args);
+        print();
+    }
     public static void println(IntList arg)
     {
-        print(arg);
-        print();
+        printx(arg);
+        printx();
     }
     public static void println(Object... args)
     {
-        print(args);
-        print();
+        printx(args);
+        printx();
     }
-    public static void printf(String optionStr, Object... objectStr)
+    public static void printf(String option_str, Object... object_str)
     {
-        System.out.printf(optionStr, objectStr);
+        System.out.printf(option_str, object_str);
     }
-    public static void printfl(String optionStr, Object... objectStr)
+    public static void printfl(String option_str, Object... object_str)
     {
-        System.out.printf(optionStr, objectStr);
-        print();
+        System.out.printf(option_str, object_str);
+        printx();
     }
     public static void printa(Object[] x)
     {
         for (Object obj : x)
         {
-            print(obj + " ");
+            printx(obj + " ");
         }
+    }
+    public static void printx(IntList x)
+    {
+        printx(x.data);
     }
     public static void print(IntList x)
     {
-        print(x.data);
+        printx(x);
+        print();
     }
     public static int inted(String x)
     {
@@ -103,10 +122,9 @@ public final class builtin
     public static int[] inted(String[] arg)
     {
         int[] ret = new int[arg.length];
-        int i = 0;
-        for (String x : arg)
+        for (int i = 0; i < ret.length; i++)
         {
-            ret[i++] = inted(x);
+            ret[i] = inted(arg[i]);
         }
         return ret;
     }
@@ -122,7 +140,7 @@ public final class builtin
     }
     public static String input(String x)
     {
-        print(x);
+        printx(x);
         return input();
     }
     public static int inputOneInt()
@@ -131,7 +149,7 @@ public final class builtin
     }
     public static int inputOneInt(String x)
     {
-        print(x);
+        printx(x);
         return inputOneInt();
     }
     public static int[] sorted(int[] x)
@@ -144,9 +162,6 @@ public final class builtin
     {
         return sorted(x.toArray());
     }
-
-    // TODO: Reversed function
-
     public static int reversed(int x)
     {
         return inted(reversed(Integer.toString(x)));
@@ -198,6 +213,7 @@ public final class builtin
     {
         return x > 0 ? x : -x;
     }
+
     /**
      * 
      * @param args The data you want to pick.
@@ -213,6 +229,7 @@ public final class builtin
         }
         return r;
     }
+
     @SafeVarargs
     public static <cmpable extends Number> cmpable max(cmpable[]... args)
     {
@@ -223,6 +240,7 @@ public final class builtin
         }
         return r;
     }
+
     /**
      * 
      * @param args The data you want to pick.
@@ -238,6 +256,7 @@ public final class builtin
         }
         return r;
     }
+
     @SafeVarargs
     public static <cmpable extends Number> cmpable min(cmpable[]... args)
     {
@@ -248,6 +267,7 @@ public final class builtin
         }
         return r;
     }
+
     public static double pow(double a, double b)
     {
         return Math.pow(a, b);

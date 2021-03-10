@@ -2,9 +2,19 @@ package Jathon.lib;
 import java.util.*;
 import static Jathon.lib.builtin.*;
 
-public class IntList
+/**
+ * What is new?<br>
+ * * Iterable IntList <br>
+ * * Delete confusing constructor IntList(String, String) <br>
+ * 
+ * What we plan?<br>
+ * * Write more about doc
+ */
+
+// TODO: Iterable IntList
+public class IntList // implements Iterable<Number>
 {
-    public final String version = "0.2.2.0";
+    public final String $version = "0.2.3.0";
     public int[] data;
 
     public IntList()
@@ -27,18 +37,10 @@ public class IntList
      * @param arg
      * @param mode
      */
-    public IntList(String[] arg, int mode)
+    public IntList(String[] arg)
     {
         this();
-        if (mode == 1)
-        {
-            arg = Arrays.copyOfRange(arg, 1, arg.length);
-        }
-        this.data = new int[arg.length];
-        for (int i = 0; i < this.data.length; i++)
-        {
-            this.data[i] = inted(arg[i]);
-        }
+        this.data = inted(arg);
     }
     public IntList(int... args)
     {
@@ -68,6 +70,23 @@ public class IntList
             }
         }
     }
+
+    // public <E> Iterator<E> iterator()
+    // {
+    // return new Iterator<E>()
+    // {
+    // int count = 0;
+    // public boolean hasNext()
+    // {
+    // return count < data.length;
+    // }
+    // public E next()
+    // {
+    // return (E) data[count++];
+    // }
+    // };
+    // }
+
     public void setAllTo(int target)
     {
         for (int i = 0; i < this.data.length; i++)
@@ -148,5 +167,12 @@ public class IntList
     public void reset()
     {
         this.data = new int[0];
+    }
+
+    public static void main(String[] args)
+    {
+        String x = "1 2 3";
+        IntList y = new IntList(x.split(" "));
+        printx(y);
     }
 }
