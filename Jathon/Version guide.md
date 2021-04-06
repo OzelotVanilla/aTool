@@ -1,6 +1,23 @@
 Version Guide
 =============
 
+Ver 0.2.4.0 04/06/2021
+----------------------
+
+### What is new?
+
+
+#### For `builtin`
+ * Change print() to printx(). If you do not need line break, use printx(). <br>
+ * Fix printx with array cannot output bug. <br>
+ * New function hex(), oct(), bin(), change radio (return int). <br>
+ * Preview inputOneDouble() <br>
+ * sqrt() add (Use java.Math's function)
+
+#### For `IntList`
+ * Iterable IntList <br>
+ * Delete confusing constructor IntList(String, String) <br>
+
 
 Ver 0.2.2.0 03/07/2021
 ----------------------

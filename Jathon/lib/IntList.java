@@ -11,10 +11,9 @@ import static Jathon.lib.builtin.*;
  * * Write more about doc
  */
 
-// TODO: Iterable IntList
-public class IntList // implements Iterable<Number>
+public class IntList implements Iterable<Integer>
 {
-    public final String $version = "0.2.3.0";
+    public final String $version = "0.2.4.0";
     public int[] data;
 
     public IntList()
@@ -71,21 +70,42 @@ public class IntList // implements Iterable<Number>
         }
     }
 
-    // public <E> Iterator<E> iterator()
-    // {
-    // return new Iterator<E>()
-    // {
-    // int count = 0;
-    // public boolean hasNext()
-    // {
-    // return count < data.length;
-    // }
-    // public E next()
-    // {
-    // return (E) data[count++];
-    // }
-    // };
-    // }
+    public Iterator<Integer> iterator()
+    {
+        return new Iterator<Integer>()
+        {
+            int count = 0;
+            public boolean hasNext()
+            {
+                return count < data.length;
+            }
+            public Integer next()
+            {
+                return data[count++];
+            }
+        };
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder s = new StringBuilder("IntList");
+        s.append(toStringPure());
+        return s.toString();
+    }
+
+    public String toStringPure()
+    {
+        StringBuilder s = new StringBuilder();
+        s.append("[");
+        for (int i : data)
+        {
+            s.append(i + ",");
+        }
+        s.deleteCharAt(s.length() - 1);
+        s.append("]");
+        return s.toString();
+    }
 
     public void setAllTo(int target)
     {
