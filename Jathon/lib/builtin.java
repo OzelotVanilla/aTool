@@ -1,18 +1,20 @@
 package Jathon.lib;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
  * What is new?<br>
- * * Change print() to printx(). If you do not need line break, use printx(). <br>
- * * Fix printx with array cannot output bug. <br>
- * * New function hex(), oct(), bin(), change radio (return int). <br>
- * * Preview inputOneDouble() <br>
- * * sqrt() add
+ * New function cls(). <br>
+ * Change some math function using Java component `StrictMath` <br>
+ * Delete deprecated printa() and println() function <br>
+ * doubled() String splits deciFmt() Function
  */
 
 public final class builtin
 {
-    public final String $version = "0.2.4.0";
+    public final String $version = "0.2.5.1";
 
     /**
      * This is the builtin file in Jathon. Do not try to initialize instance of this class.<br>
@@ -22,29 +24,10 @@ public final class builtin
     {
     }
 
-    public static void printx(int[] x)
-    {
-        for (int i = 0; i < x.length; i++)
-        {
-            if (i != x.length - 1)
-            {
-                printx(x[i] + ", ");
-            }
-            else
-            {
-                printx(x[i]);
-            }
-        }
-    }
 
     /**
-     * An easy function for print data. Shorter than "System.out.println", easier to use (use comma
-     * to seperate variables, do not worry about data type).
-     * 
-     * 
-     * @param argument
-     * @param e
-     * 
+     * An easy function for print data. Shorter than "System.out.println", easier to use (use comma to
+     * separate variables, do not worry about data type).
      */
     public static void printx(Object... args)
     {
@@ -52,16 +35,15 @@ public final class builtin
         {
             System.out.println();
         }
-        else if (args.length == 1)
+        else if (args.length == 1 && !args[0].getClass().isArray())
         {
             System.out.print(args[0]);
         }
         else
         {
             StringBuilder r = new StringBuilder(Arrays.deepToString(args));
-            r.deleteCharAt(r.length() - 1);
-            r.deleteCharAt(0);
-            System.out.print(r);
+            // Delete the brackets of Arrays.deepToString() and print
+            System.out.print(r.deleteCharAt(r.length() - 1).deleteCharAt(0));
         }
     }
 
@@ -76,15 +58,9 @@ public final class builtin
         print();
     }
 
-    public static void println(IntList arg)
+    public static void print(IntList arg)
     {
         printx(arg);
-        printx();
-    }
-
-    public static void println(Object... args)
-    {
-        printx(args);
         printx();
     }
 
@@ -98,12 +74,31 @@ public final class builtin
         System.out.printf(option_str + "\n", object_str);
     }
 
-    public static void printa(Object[] x)
+
+    public static void cls()
     {
-        for (Object obj : x)
+        // Idea from https://stackoverflow.com/questions/2979383/java-clear-the-console
+        try
         {
-            printx(obj + " ");
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         }
+        catch (Exception e)
+        {
+            print("Failed to clean the screen.");
+        }
+    }
+
+
+    public static String deciFmt(double d)
+    {
+        return deciFmt(d, 4);
+    }
+
+    public static String deciFmt(double d, int scale)
+    {
+        BigDecimal x = new BigDecimal(d);
+        x = x.setScale(scale, RoundingMode.HALF_DOWN);
+        return x.toString();
     }
 
 
@@ -132,53 +127,73 @@ public final class builtin
         return ret;
     }
 
+    public static double[] doubled(String[] arg)
+    {
+        double[] ret = new double[arg.length];
+        for (int i = 0; i < ret.length; i++)
+        {
+            ret[i] = doubled(arg[i]);
+        }
+        return ret;
+    }
+
     public static double doubled(String x)
     {
         return Double.parseDouble(x);
     }
 
-    private static Scanner scanner_s = new Scanner(System.in);
+    private static final Scanner scanner_s = new Scanner(System.in);
+
     public static String input()
     {
         return scanner_s.nextLine();
     }
+
     public static String input(String x)
     {
         printx(x);
         return input();
     }
+
     public static int inputOneInt()
     {
         return scanner_s.nextInt();
     }
+
     public static int inputOneInt(String x)
     {
         printx(x);
         return inputOneInt();
     }
+
     public static double inputOneDouble()
     {
         return scanner_s.nextDouble();
     }
+
     public static double inputOneDouble(String x)
     {
         printx(x);
         return inputOneInt();
     }
+
     public static int[] sorted(int[] x)
     {
         int[] t = Arrays.copyOf(x, x.length);
         Arrays.sort(t);
         return t;
     }
+
     public static int[] sorted(IntList x)
     {
         return sorted(x.toArray());
     }
+
     public static int reversed(int x)
     {
         return inted(reversed(Integer.toString(x)));
     }
+
     public static String reversed(String s)
     {
         StringBuilder b = new StringBuilder();
@@ -189,14 +204,23 @@ public final class builtin
         }
         return b.toString();
     }
-    // public static <E> E reversed(E[] i)
-    // {
 
-    // }
+    @SuppressWarnings("unchecked")
+    public static <E> E reversed(E[] arr)
+    {
+        int i = arr.length;
+        Object[] ret = new Object[i];
+        for (E x : arr)
+        {
+            ret[i--] = x;
+        }
+        return (E) ret;
+    }
+
 
     // Math function.
 
-    // TODO: Wrong randint()
+
     /**
      * Use system time to return a random number.<br>
      *
@@ -206,31 +230,35 @@ public final class builtin
     {
         return randint(0, 100);
     }
+
     /**
      * Use system time to return a random number.<br>
      *
-     * @param s The start number of ramdom int
-     * @param e The e number of ramdom int
+     * @param s The start number of random int
+     * @param e The e number of random int
      * @return int from 0 to 100 (edge included)
      */
     public static int randint(int s, int e)
     {
-        return inted(Math.sqrt(System.nanoTime() % 1000000000)) % (e - s) + s;
+        return inted(StrictMath.sqrt(System.nanoTime() % 1000000000)) % (e - s) + s;
     }
 
-    // TODO: x
-    /**
-     * 
-     * @param x
-     * @return The absolute data of the input number
-     */
-    // public static <numeric extends Number> numeric abs(numeric x)
-    // {
-    // return;
-    // }
+
+    public static int abs(int x)
+    {
+        return x >= 0 ? x : -x;
+    }
 
     /**
-     * 
+     * @param x The value you want to get absolute value
+     * @return The absolute data of the input number
+     */
+    public static <numeric extends Number> double abs(numeric x)
+    {
+        return x.doubleValue() >= 0 ? x.doubleValue() : -x.doubleValue();
+    }
+
+    /**
      * @param args The data you want to pick.
      * @return The max data from input
      */
@@ -257,7 +285,6 @@ public final class builtin
     }
 
     /**
-     * 
      * @param args The data you want to pick.
      * @return The min data from input
      */
@@ -285,12 +312,12 @@ public final class builtin
 
     public static double pow(double a, double b)
     {
-        return Math.pow(a, b);
+        return StrictMath.pow(a, b);
     }
 
     public static double sqrt(double a)
     {
-        return Math.sqrt(a);
+        return StrictMath.sqrt(a);
     }
 
     public static String hex(int x)

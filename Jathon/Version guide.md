@@ -1,6 +1,16 @@
 Version Guide
 =============
 
+Ver 0.2.5.1 04/18/2021
+----------------------
+
+ ### What is new for `builtin`?
+ * New function cls().
+ * Change some math function using Java component `StrictMath`.
+ * Delete deprecated printa() and println() function.
+ * doubled() String splits.
+ * deciFmt() function.
+
 Ver 0.2.4.0 04/06/2021
 ----------------------
 
