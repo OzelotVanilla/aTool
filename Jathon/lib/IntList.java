@@ -1,55 +1,62 @@
 package Jathon.lib;
+
 import java.util.*;
-import static Jathon.lib.builtin.*;
+
+import static lib.Jathon.builtin.*;
 
 /**
  * What is new?<br>
- * * Iterable IntList <br>
- * * Delete confusing constructor IntList(String, String) <br>
- * 
- * What we plan?<br>
- * * Write more about doc
+ * Add ArrayList<Integer> toArrayList() <br>
+ * Add IntList(String) <br>
+ * Change expression of some function
  */
 
 public class IntList implements Iterable<Integer>
 {
-    public final String $version = "0.2.4.0";
+    public final String $version = "0.2.6.0";
     public int[] data;
+
 
     public IntList()
     {
         data = new int[0];
     }
+
     public IntList(int length)
     {
         data = new int[length];
         setAllTo(0);
     }
+
+    public IntList(String arg)
+    {
+        this(arg, " ");
+    }
+
     public IntList(String arg, String split)
     {
         this(inted(arg.split(split)));
     }
+
     /**
-     * This constructer allows you to convert a String array to an IntList array.<br>
+     * This constructor allows you to convert a String array to an IntList array.<br>
      * For example:
-     * 
+     *
      * @param arg
-     * @param mode
      */
     public IntList(String[] arg)
     {
         this();
         this.data = inted(arg);
     }
+
     public IntList(int... args)
     {
         this();
         this.data = new int[args.length];
-        for (int i = 0; i < args.length; i++)
-        {
-            this.data[i] = args[i];
-        }
+        System.arraycopy(args, 0, this.data, 0, args.length);
     }
+
     public IntList(int[]... args)
     {
         this();
@@ -70,15 +77,18 @@ public class IntList implements Iterable<Integer>
         }
     }
 
+
     public Iterator<Integer> iterator()
     {
-        return new Iterator<Integer>()
+        return new Iterator<>()
         {
             int count = 0;
+
             public boolean hasNext()
             {
                 return count < data.length;
             }
+
             public Integer next()
             {
                 return data[count++];
@@ -107,42 +117,53 @@ public class IntList implements Iterable<Integer>
         return s.toString();
     }
 
-    public void setAllTo(int target)
+    public ArrayList<Integer> toArrayList()
     {
+        ArrayList<Integer> r = new ArrayList<Integer>(this.data.length);
         for (int i = 0; i < this.data.length; i++)
         {
-            this.data[i] = target;
+            r.add(i, this.data[i]);
         }
+        return r;
     }
+
+
+    public void setAllTo(int target)
+    {
+        Arrays.fill(this.data, target);
+    }
+
     public void sort()
     {
         Arrays.sort(this.data);
     }
+
     public int[] toArray()
     {
         return this.data;
     }
+
     public void append(int x)
     {
         append(new int[]{x});
     }
+
     public void append(int[] obj)
     {
         int[] ret = new int[this.data.length + obj.length];
-        for (int i = 0; i < this.data.length; i++)
-        {
-            ret[i] = this.data[i];
-        }
+        System.arraycopy(this.data, 0, ret, 0, this.data.length);
         for (int i = this.data.length, j = 0; i < ret.length; i++, j++)
         {
             ret[i] = obj[j];
         }
         this.data = ret;
     }
+
     public void append(IntList obj)
     {
         append(obj.data);
     }
+
     public boolean has(int x)
     {
         for (int i : this.data)
@@ -154,6 +175,7 @@ public class IntList implements Iterable<Integer>
         }
         return false;
     }
+
     public int popObj(int obj)
     {
         for (int i = 0; i < this.data.length; i++)
@@ -161,13 +183,10 @@ public class IntList implements Iterable<Integer>
             if (obj == this.data[i])
             {
                 int[] ret = new int[this.data.length - 1];
-                for (int j = 0; j < i; j++)
+                System.arraycopy(this.data, 0, ret, 0, i);
+                if (ret.length - i >= 0)
                 {
-                    ret[j] = this.data[j];
-                }
-                for (int j = i; j < ret.length; j++)
-                {
-                    ret[j] = this.data[j + 1];
+                    System.arraycopy(this.data, i + 1, ret, i, ret.length - i);
                 }
                 this.data = ret;
                 return i;
@@ -175,6 +194,7 @@ public class IntList implements Iterable<Integer>
         }
         throw new NoSuchElementException("No such Element in this IntList");
     }
+
     public int popIndex(int index)
     {
         int ret = this.data[index];
@@ -184,15 +204,9 @@ public class IntList implements Iterable<Integer>
         this.data = newData.data;
         return ret;
     }
+
     public void reset()
     {
         this.data = new int[0];
-    }
-
-    public static void main(String[] args)
-    {
-        String x = "1 2 3";
-        IntList y = new IntList(x.split(" "));
-        printx(y);
     }
 }

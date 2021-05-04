@@ -6,15 +6,16 @@ import java.util.*;
 
 /**
  * What is new?<br>
- * New function cls(). <br>
- * Change some math function using Java component `StrictMath` <br>
- * Delete deprecated printa() and println() function <br>
- * doubled() String splits deciFmt() Function
+ * Completing function len() <br>
+ * New function booled() <br>
+ * randint() fixed, using Java's function
  */
 
 public final class builtin
 {
-    public final String $version = "0.2.5.1";
+    public final String $version = "0.2.6.0";
+
+    public static final String CR = System.getProperty("line.separator");
 
     /**
      * This is the builtin file in Jathon. Do not try to initialize instance of this class.<br>
@@ -26,8 +27,8 @@ public final class builtin
 
 
     /**
-     * An easy function for print data. Shorter than "System.out.println", easier to use (use comma to
-     * separate variables, do not worry about data type).
+     * An easy function for print data. Shorter than "System.out.println", easier to use (use comma to separate
+     * variables, do not worry about data type).
      */
     public static void printx(Object... args)
     {
@@ -72,6 +73,22 @@ public final class builtin
     public static void printf(String option_str, Object... object_str)
     {
         System.out.printf(option_str + "\n", object_str);
+    }
+
+
+    public static int len(String s)
+    {
+        return s.length();
+    }
+
+    public static int len(int i)
+    {
+        return inted(StrictMath.log10(i));
+    }
+
+    public static <U> int len(U[] a)
+    {
+        return a.length;
     }
 
 
@@ -141,6 +158,22 @@ public final class builtin
     {
         return Double.parseDouble(x);
     }
+
+    public static boolean booled(int x)
+    {
+        return x != 0;
+    }
+
+    public static boolean booled(double x)
+    {
+        return x != 0.0;
+    }
+
+    public static String str(long x)
+    {
+        return Long.toString(x);
+    }
+
 
     private static final Scanner scanner_s = new Scanner(System.in);
 
@@ -220,11 +253,12 @@ public final class builtin
 
     // Math function.
 
+    static Random random = new Random();
 
     /**
      * Use system time to return a random number.<br>
      *
-     * @return int from 0 to 100 (edge included)
+     * @return int from 0 to 100 (both edges are included)
      */
     public static int randint()
     {
@@ -236,11 +270,11 @@ public final class builtin
      *
      * @param s The start number of random int
      * @param e The e number of random int
-     * @return int from 0 to 100 (edge included)
+     * @return int from <i>s</i> to <i>e</i> (both edges are included)
      */
     public static int randint(int s, int e)
     {
-        return inted(StrictMath.sqrt(System.nanoTime() % 1000000000)) % (e - s) + s;
+        return random.nextInt(e - s + 1) + s;
     }
 
 
@@ -318,6 +352,11 @@ public final class builtin
     public static double sqrt(double a)
     {
         return StrictMath.sqrt(a);
+    }
+
+    public static double ln(double x)
+    {
+        return Math.log(x);
     }
 
     public static String hex(int x)
