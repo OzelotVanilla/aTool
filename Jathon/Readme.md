@@ -19,7 +19,7 @@ All modules are still in developing.
 
 - builtin: Idea got from Python. Make your code pretty.
 - IntList: If you want to have a list like thing saving int in Java, try this 
-  (Considering, a bit like repeat work (Hava already has ArrayList\<Integer\>))
+  (Considering, a bit like repeat work (Java already has ArrayList\<Integer\>))
 - Fecha: Can save time point or period, can be formatted easier.
 
 Jathon Suggest You
