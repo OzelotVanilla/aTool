@@ -1,14 +1,15 @@
-package lib.Jathon;
+package org.cesno.jathon.time;
 
-import static lib.Jathon.builtin.*;
+import static org.cesno.jathon.builtin.*;
 
 import java.io.Externalizable;
+import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.IOException;
-import java.time.ZoneId;
-import java.util.Date;
 import java.math.BigInteger;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.Date;
 
 /**
  * <p>
@@ -39,10 +40,10 @@ public class Fecha implements Externalizable, Cloneable, Comparable<Fecha>
 
     /**
      * <p>
-     * {@code type}は{@code Fecha}の型です。
+     * {@code type}は{@code Fecha}内部の{@code value}の解釈型(与元型ではない)です。Fechaは
      * </p>
      * <p>
-     * Save the type of Fecha object. It can be a special point of time, or a period of time. If you assign it as
+     * Save the meaning of Fecha's value. It can be a special point of time, or a period of time. If you assign it as
      * {@code now}, it will only mark it is present time, and not saving time in {@code value}.
      * </p>
      */
@@ -58,7 +59,17 @@ public class Fecha implements Externalizable, Cloneable, Comparable<Fecha>
 
     private type value_type;
 
-    private ZoneId zone_info;
+    /**
+     * <p>
+     * 時間帯情報を{@code Jathon.Fecha$Zone}で保存する。<br>
+     * 既定値は使用者が使っているOSの時間帯です。
+     * </p>
+     *
+     * <p>
+     * {@code zone_info}を設定するには{@link #setZone(ZoneOffset)}や{@link #setZone(int)}を使ってください。
+     * </p>
+     */
+    private Timezone zone_info;
 
     /**
      * Save the value of time. It can mean point of time, or a period of time according to {@code type}.
@@ -98,18 +109,20 @@ public class Fecha implements Externalizable, Cloneable, Comparable<Fecha>
 
     public Fecha(type t, long value)
     {
-        this(t, ZoneId.systemDefault(), new BigInteger(str(value)), "`default`");
+        // TODO Empty constructor to be filled
     }
 
     public Fecha(ZoneId zi, long value)
     {
-        this(type.point, zi, new BigInteger(str(value)), "`default`");
+        // TODO Empty constructor to be filled
     }
 
-    public Fecha(type t, ZoneId zi, BigInteger value, String format)
+    public Fecha(type t, ZoneOffset zi, BigInteger value, String format)
     {
         this.value_type = t;
-        this.zone_info = (value_type == type.point || value_type == type.now) ? zi : null;
+        this.zone_info = (value_type == type.point || value_type == type.now)
+                ? new Timezone(zi)
+                : null;
         this.value = t == type.now ? null : value;
         this.format = format;
     }
@@ -154,7 +167,7 @@ public class Fecha implements Externalizable, Cloneable, Comparable<Fecha>
      * <table>
      * <th>
      * <td>Placeholder</td>
-     * <td>説明</td></th>
+     * <td>説明</td></th><br>
      * <tr>
      * </tr>
      * </table>
@@ -169,5 +182,15 @@ public class Fecha implements Externalizable, Cloneable, Comparable<Fecha>
     public void setFormat(String fmt)
     {
         this.format = fmt;
+    }
+
+    public void setZone(ZoneOffset zone_info)
+    {
+        // TODO Auto-generated method stub
+    }
+
+    public void setZone(int offset)
+    {
+        // TODO Auto-generated method stub
     }
 }

@@ -1,8 +1,9 @@
-package Jathon.lib;
+package org.cesno.jathon;
+
+import static org.cesno.jathon.builtin.*;
 
 import java.util.*;
 
-import static lib.Jathon.builtin.*;
 
 /**
  * What is new?<br>

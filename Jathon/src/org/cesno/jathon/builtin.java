@@ -1,4 +1,7 @@
-package Jathon.lib;
+package org.cesno.jathon;
+
+import org.cesno.jathon.exception.ExceptionReason;
+import org.cesno.jathon.exception.ExceptionExample;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -25,6 +28,8 @@ public final class builtin
     {
     }
 
+
+    // print() function family: Shorter name, print what you want.
 
     /**
      * An easy function for print data. Shorter than "System.out.println", easier to use (use comma to separate
@@ -76,6 +81,8 @@ public final class builtin
     }
 
 
+    // len() function: If you only want to get length, then we will give you its length
+
     public static int len(String s)
     {
         return s.length();
@@ -91,6 +98,13 @@ public final class builtin
         return a.length;
     }
 
+    public static <U> int len(Collection<U> c)
+    {
+        return c.size();
+    }
+
+
+    // console.family: Make cmd command easier.
 
     public static void cls()
     {
@@ -253,7 +267,7 @@ public final class builtin
 
     // Math function.
 
-    static Random random = new Random();
+    private static Random random = new Random();
 
     /**
      * Use system time to return a random number.<br>
@@ -372,5 +386,18 @@ public final class builtin
     public static String oct(int x)
     {
         return "0o" + Integer.toOctalString(x);
+    }
+
+
+    // Start Error Processing parts
+
+    public static void printErr(ExceptionReason r)
+    {
+        // TODO need param (ErrorReason r)
+    }
+
+    public static void printErrDetail()
+    {
+        // TODO need param (ErrorReason r, ErrorExample t)
     }
 }
